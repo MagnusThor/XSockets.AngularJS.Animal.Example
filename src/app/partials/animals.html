@@ -1,0 +1,26 @@
+﻿<fieldset>
+    <legend>Create a new animal</legend>
+    <label for="name">Name:</label>
+    <input type="text" ng-model="animal.Name" id="name" />
+    <label for="description">Description</label>
+    <input type="text" id="description" ng-model="animal.Description" />
+    <button ng-click="createAnimal()">Add animal</button>
+
+</fieldset>
+
+<p>When save is hit , all clients will get the new Animal automaticly send to all clients connected...</p>
+
+<ul>
+    <li ng-repeat="animal in animals| orderBy:order" data-id="{{animal.Id}}">
+        {{animal.Name}} ( Id: {{animal.Id}})
+        <p>
+            {{animal.Description}}
+            &nbsp;<span ng-click="removeAnimal(animal.Id)" style="color:red">Remove </span>
+        </p>
+    </li>
+</ul>
+
+
+
+
+
