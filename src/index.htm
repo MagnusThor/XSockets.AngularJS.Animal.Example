@@ -3,13 +3,18 @@
         <title>Simple Angular JS | XSockets.NET Example</title>
         <script src="scripts/angular.min.js"></script>
         <script src="scripts/angular-resource.js"></script>
-        <script src="//xsockets.github.io/XSockets.JavaScript.API/src/XSockets.latest.min.js"></script>
+        <script src="scripts/XSockets.latest.js"></script>
+        <script src="app/js/xsockets-angular-provider.js"></script>
         <script src="app/js/app.js"></script>
         <script src="app/js/controllers.js"></script>
-        <script src="app/js/services.js"></script>
+      
 
     </head>
     <body>
+        <a href="/#/animals/">Animals</a>
+        | 
+        <a href="/#/dummy/">About</a>
+        <hr/>
         <h1>Animals we like!</h1>
         <div ng-view></div>
     </body>

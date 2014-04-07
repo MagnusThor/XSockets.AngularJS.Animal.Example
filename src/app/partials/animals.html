@@ -10,6 +10,11 @@
 
 <p>When save is hit , all clients will get the new Animal automaticly send to all clients connected...</p>
 
+<p>
+    <strong>Error message</strong>
+    <mark>{{errorMessage}}</mark>
+</p>
+
 <ul>
     <li ng-repeat="animal in animals| orderBy:order" data-id="{{animal.Id}}">
         {{animal.Name}} ( Id: {{animal.Id}})
@@ -20,6 +25,10 @@
     </li>
 </ul>
 
+
+
+
+<button ng-click="stopListen();">Unbind</button>
 
 
 
