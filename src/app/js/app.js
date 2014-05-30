@@ -23,7 +23,6 @@ animalApp.config(['$locationProvider', '$routeProvider', 'xsocketsProvider',
 
 //hey, we can configure the  provider this way also..  
 
-//animalApp.config(function ($xsCommunicationProvider) {
-//    $xsCommunicationProvider.setUrl("ws://joinaspot.com:4509/Generic");
-
+//animalApp.config(function (xsocketsProvider) {
+//    xsocketsProvider.setUrl("ws://joinaspot.com:4509/Generic");
 //});
