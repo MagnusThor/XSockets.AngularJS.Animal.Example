@@ -74,7 +74,8 @@ Example controller
     $xsCommunication.open.then(function () {
         $scope.say = "Connected";
     });
-}]);
+    }]);
+
     
 
 
