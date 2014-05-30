@@ -1,6 +1,8 @@
 # XSockets.angularJS Provider
 
-This repo gives you quick introduction how to use the XSockets.NET angularJS provider.  `['$xsCommunicationProvider']`
+This repo gives you quick introduction how to use the XSockets.NET angularJS (beta) provider.  `['xsockets']`
+
+The team is currently working on the next major release of XSockets.NET where we will include more streamlined,powerfull and streamlined API's.  Join our developer forum for the latest informaation at http://xsockets.net/developer-forum 
 
 ###Example usage
 
@@ -16,48 +18,37 @@ Include the two following JavaScript files
 
 ###Inject the provider 
 
-    var myApp = angular.module('animalApp', ['XSockets.angularJS']);
+    var myApp = angular.module('animalApp', ['xsockets.angular']);
 
 ####Configure the provider
 
-By invoking the `.setUrl(ws)` method on the $xsCommunicationProvider for anguar you define the endpoint (XSockets.Controller) to be used.
+By invoking the `.setUrl(ws)` method on the $xsocketsProvider for angular you define the endpoint (XSockets.Controller) to be used.
 
         // Configure the XSockets angularJS provider
-        $xsCommunicationProvider.setUrl("ws://joinaspot.com:4509/Generic");
+        ..
+        $xsocketsProvider.setUrl("ws://joinaspot.com:4509/Generic");
+        ..
 
-#####A Complete example using the `animalApp` as describe above .
+#####Example (Complete example using the `animalApp` as describe above)
 
-    
-     animalApp.config(['$locationProvider', '$routeProvider', '$xsCommunicationProvider',
-     function ($locationProvider, $routeProvider, $xsCommunicationProvider) {
-     
-         // Configure the XSockets angularJS provider
-         $xsCommunicationProvider.setUrl("ws://joinaspot.com:4509/Generic");
+    animalApp.config(['$locationProvider', '$routeProvider', 'xsocketsProvider',
+    function ($locationProvider, $routeProvider, $xsocketsProvider) {
+        // Configure the XSockets angularJS provider
+        $xsocketsProvider.setUrl("ws://joinaspot.com:4509/Generic");
 
-         $routeProvider.
-         when('/animals/', {
-             templateUrl: 'app/partials/animals.html',
-             controller: 'AnimalsController'
-         })
-             .
-         when('/dummy/', {
-             templateUrl: 'app/partials/dummy.html',
-             controller: 'DummyController'
-         })
-             .
-         otherwise({
-             redirectTo: '/animals'
-         });
-     }
-     ]);
- 
-    
-..another way to configure the provider is
-
-    
-    animalApp.config(function ($xsCommunicationProvider) {
-    $xsCommunicationProvider.setUrl("ws://joinaspot.com:4509/Generic");
-    });
+        $routeProvider.
+        when('/animals/', {
+            templateUrl: 'app/partials/animals.html',
+            controller: 'AnimalsController'
+        }).
+        when('/dummy/', {
+            templateUrl: 'app/partials/dummy.html',
+            controller: 'DummyController'
+        }).
+        otherwise({
+            redirectTo: '/animals'
+        });
+    }]);
 
 
 ####Using the provider in a angularController
@@ -66,31 +57,25 @@ When the provider is injected and constructed within a controller the provider e
 
 Example controller
 
-    animalApp.controller('DummyController', ['$scope', '$xsCommunication', function ($scope, $xsCommunication) {
+    animalApp.controller('DummyController', ['$scope', 'xsockets', function ($scope, xsockets) {
 
     $scope.say = "Connecting...";
 
     // i will only fire once
-    $xsCommunication.open.then(function () {
+    xsockets.onopen.then(function () {
         $scope.say = "Connected";
     });
     }]);
 
-    
-
-
-
-
-
 ###Publish & Subscribe
 
-####.subscribe(topic,fn) : delagate(fn)
-Establish a subscription to a topic by invoking `.subscribe(topic,fn).delagate(fn)`
+####.subscribe(topic,fn) : delegate(fn)
+Establish a subscription to a topic by invoking `.subscribe(topic,fn).delegate(fn)`
 
       ...
-       $xsCommunication.subscribe("myToic", function () {
+       xsockets.subscribe("myToic", function () {
             console.log("Server confirms subscription!");
-        }).delagate(function (data) {
+        }).delegate(function (data) {
             // attach the data to the $scope 
             $scope.myData = data;
         });
@@ -99,28 +84,28 @@ Establish a subscription to a topic by invoking `.subscribe(topic,fn).delagate(f
 
 Publish data by invoking `.publish(topic,obj,fn)` fn is an optional argument. *fn* will be invoked after the data is sent to the XSockets.Controller
 
-####.publish(topix,data,fn)
+####.publish(topic,data,fn)
 
-    $xsCommunication.publish("myTopic",{say:'Ivory belongs to elephants...'}, function () {
+    xsockets.publish("myTopic",{say:'Ivory belongs to elephants...'}, function () {
         console.log("You just send some data to the contoller..");
     });
-####.one(topic,fn): delgate(fn)
+####.one(topic,fn): delegate(fn)
 
 *When using one the API automatically unsubscribes to the topic after a messages arrives.*
 
     ...
-    $xsCommunication.one("myTopic").delagate(function(data) {
-    // do op's with data
+    xsockets.one("myTopic").delegate(function(data) {
+        // do op's with data
     });
     ...
 
-####.many(topic,count,fn): delagate(fn)
+####.many(topic,count,fn): delegate(fn)
 
 *When using many the API automatically unsubscribes to the topic after a specific (count) number of messages arrives)*
 
     ..
-    $xsCommunication.many("myTopic",5).delagate(function(function(data) {
-     // do op's with data
+    xsockets.many("myTopic",5).delegate(function(function(data) {
+        // do op's with data
     });
 
 ####.unsubscribe(topic,fn)
@@ -128,8 +113,8 @@ Publish data by invoking `.publish(topic,obj,fn)` fn is an optional argument. *f
 To remove a subscription, invoke the .unsubscribe method.
 
     ..
-    $xsCommunication.unsubscribe("myTopic", function(){
-    console.log("We are now not subscribing to myTopic");
+    xsockets.unsubscribe("myTopic", function(){
+        console.log("We are now not subscribing to myTopic");
     });
 
 ####Events (promises)
@@ -138,20 +123,19 @@ The open, close and error "events"  raised by the underlaying XSockets.JavaScrip
 
     // Open & Ready
     
-    $xsCommunication.open.then(function(){
+    xsockets.onopen.then(function(){
         // We are now connected and/or ready
     });
     
       // Catch any errors/ exceptions thown
     
-    $xsCommunication.error.then(function(err){
+    xsockets.onerror.then(function(err){
         // An error occured
     });
     
-    $xsCommunication.close.then(function(reason){
+    xsockets.onclose.then(function(reason){
         // The connection is closed....
     });
     
     
     
-
