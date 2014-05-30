@@ -1,39 +1,29 @@
-﻿var animalApp = angular.module('animalApp', ['XSockets.angularJS']);
+﻿var animalApp = angular.module('animalApp', ['xsockets.angular']);
 
-animalApp.config(['$locationProvider', '$routeProvider', '$xsCommunicationProvider',
-    function ($locationProvider, $routeProvider, $xsCommunicationProvider) {
-
+animalApp.config(['$locationProvider', '$routeProvider', 'xsocketsProvider',
+    function ($locationProvider, $routeProvider, $xsocketsProvider) {
         // Configure the XSockets angularJS provider
-        $xsCommunicationProvider.setUrl("ws://joinaspot.com:4509/Generic");
-        
+        $xsocketsProvider.setUrl("ws://joinaspot.com:4509/Generic");
 
         $routeProvider.
-            when('/animals/', { templateUrl: 'app/partials/animals.html', controller: 'AnimalsController' }).
-            when('/dummy/',
-                {
-                    templateUrl: 'app/partials/dummy.html', controller: 'DummyController'
-                }).
-            otherwise({ redirectTo: '/animals' });
+        when('/animals/', {
+            templateUrl: 'app/partials/animals.html',
+            controller: 'AnimalsController'
+        }).
+        when('/dummy/', {
+            templateUrl: 'app/partials/dummy.html',
+            controller: 'DummyController'
+        }).
+        otherwise({
+            redirectTo: '/animals'
+        });
 
-}]);
+    }
+]);
 
-//hey, we can configure a provider this way!            
-animalApp.config(function ($xsCommunicationProvider) {
-    $xsCommunicationProvider.setUrl("ws://joinaspot.com:4509/Generic");
- 
-});
+//hey, we can configure the  provider this way also..  
 
+//animalApp.config(function ($xsCommunicationProvider) {
+//    $xsCommunicationProvider.setUrl("ws://joinaspot.com:4509/Generic");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//});
